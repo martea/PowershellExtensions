@@ -2,10 +2,10 @@
 function New-ComplexPassword {
     <#
     .SYNOPSIS
-    Password Generator
+    New-ComplexPassword Generator
     
     .DESCRIPTION
-    Password Generator tool to obtain any length and numbers of passwords, 
+    New-ComplexPassword Generator tool to obtain any length and numbers of passwords, 
     adding desired number of special characters, quickly. 
     
     .PARAMETER PasswordLength
@@ -20,10 +20,7 @@ function New-ComplexPassword {
     .EXAMPLE
     'John','Paul','George','Ringo' | New-ComplexPassword -PasswordLength 10 -SpecialCharCount 2
  
-    1..5 | New-ComplexPassword -PasswordLength 16 -SpecialCharCount 5
-    
-    .NOTES
-    By Graham Beer
+    1..5 | New-ComplexPassword
     #>
     
     [Cmdletbinding(DefaultParameterSetName = 'Single')]
@@ -45,25 +42,22 @@ function New-ComplexPassword {
         $GenerateUserPW
     )
     Begin {   
-        # The System.Web namespaces contain types that enable browser/server communication
         Add-Type -AssemblyName System.Web 
     }
     Process {
         switch ($PsCmdlet.ParameterSetName) {
             'Single' {
-                # GeneratePassword static method: Generates a random password of the specified length
                 [System.Web.Security.Membership]::GeneratePassword($PasswordLength, $SpecialCharCount)
             }
             'Multiple' {
-                $GenerateUserPW | Foreach {
-                    # Custom Object to display results
+                $GenerateUserPW | ForEach-Object {
                     New-Object -TypeName PSObject -Property @{
                         User     = $_
                         Password = [System.Web.Security.Membership]::GeneratePassword($PasswordLength, $SpecialCharCount)
                     }
                 }
             }
-        } # End of Switch
+        } 
     }
     End {}
-} # End of Function
+}
