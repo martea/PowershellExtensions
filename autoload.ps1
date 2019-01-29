@@ -1,3 +1,1 @@
-Get-Location
-
-Get-ChildItem **\*.ps1 -Recurse | ForEach-Object{.$_} 
+Get-ChildItem Functions\*.ps1 -Recurse | ForEach-Object {.$_ -Verbose}
