@@ -1,4 +1,3 @@
-Set-Alias editor code
 function Edit-Powershell-Profile() {
     editor "$($env:USERPROFILE)\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
 }
