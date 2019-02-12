@@ -1,0 +1,49 @@
+{
+    "editor.formatOnSave": true,
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      {
+        "language": "vue",
+        "autoFix": true
+      }
+    ],
+    "cSpell.words": [
+      "Oidc",
+      "Typogrpahy",
+      "Vuex",
+      "Zhipster",
+      "consts",
+      "echarts",
+      "endregion",
+      "openid",
+      "signin",
+      "signout",
+      "silentrenew",
+      "vuetify"
+    ],
+    "todohighlight.keywords": [
+      {
+        "text": "DEBUG:",
+        "color": "gray",
+        "backgroundColor": "transparent"
+      },
+      {
+        "text": "REVIEW:",
+        "color": "white",
+        "backgroundColor": "magenta"
+      },
+      {
+        "text": "NOTE:",
+        "color": "#000000",
+        "backgroundColor": "cyan"
+      },
+      {
+        "text": "TODO:",
+        "color": "black",
+        "backgroundColor": "yellow"
+        //other styling properties goes here ...
+      }
+    ]
+  }
+  
