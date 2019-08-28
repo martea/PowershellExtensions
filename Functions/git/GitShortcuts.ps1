@@ -44,7 +44,11 @@ function clone($url) {
 }
 function update() {
     git pull
-    git submodule update --recursive --remote --init
+    git submodule update --recursive
+}
+function update-latest() {
+    git pull
+    git submodule update --recursive --remote
 }
 function prune-check() {
     git remote prune origin --dry-run
