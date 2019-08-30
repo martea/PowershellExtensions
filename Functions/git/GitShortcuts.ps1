@@ -44,7 +44,7 @@ function clone($url) {
 }
 function update() {
     git pull
-    git submodule update --recursive
+    git pull --recurse-submodules
 }
 function update-latest() {
     git pull
