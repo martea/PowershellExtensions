@@ -5,6 +5,8 @@ If (Get-Module -ListAvailable -Name "posh-git") {
 else {
     Write-Host "installing posh-git" -ForegroundColor Cyan 
     PowerShellGet\Install-Module posh-git -Scope CurrentUser -Force
+    PowerShellGet\Install-Module oh-my-posh -Scope CurrentUser -Force
+    PowerShellGet\Install-Module -Name PSReadLine -AllowPrerelease -Scope CurrentUser -Force -SkipPublisherCheck
 }
 
 if (!(Test-Path $PROFILE)) {
@@ -13,7 +15,7 @@ if (!(Test-Path $PROFILE)) {
 }
 function hasContent($text) {
     $file = Get-Content $PROFILE
-    $containsWord = $file | ForEach-Object {$_ -match $text}
+    $containsWord = $file | ForEach-Object { $_ -match $text }
     if ($containsWord -contains $true) {
         return $true;
     }
@@ -27,12 +29,15 @@ if (!(hasContent($installHeader))) {
     Write-Host "adding $installHeader" -ForegroundColor Cyan 
     Add-Content $PROFILE "# $installHeader"
     Add-Content $PROFILE "Import-Module posh-git"
+    Add-Content $PROFILE "Import-Module oh-my-posh"
+    Add-Content $PROFILE "Set-Theme Paradox"
+    Write-host "Dont forget to add font https://github.com/adam7/delugia-code/releases";
 }
 
 
 
 $installHeader = "Autoload Script"
-$autoLoadPath = Get-Item .\autoload.ps1 | Select-Object Directory  | % {$_.Directory.FullName}
+$autoLoadPath = Get-Item .\autoload.ps1 | Select-Object Directory | % { $_.Directory.FullName }
 $psScript = 'Push-Location ' + $autoLoadPath + '
 . .\autoload.ps1
 Pop-Location'
