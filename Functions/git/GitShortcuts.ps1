@@ -61,15 +61,15 @@ function gco($message) {
     git add . | Out-Host
     git commit -am $message | Out-Host
 }
-function gcob($message) {
-    $featName = $message
+# function gcob($message) {
+#     $featName = $message
 
-    $newBranch = "feature/${$featName}";
-    git checkout -b $newBranch
-    git add . | Out-Host
-    git commit -am $message | Out-Host
-    git push -u origin $newBranch
-}
+#     $newBranch = "feature/${$featName}";
+#     git checkout -b $newBranch
+#     git add . | Out-Host
+#     git commit -am $message | Out-Host
+#     git push -u origin $newBranch
+# }
 
 function git-cherry($url) {
 
