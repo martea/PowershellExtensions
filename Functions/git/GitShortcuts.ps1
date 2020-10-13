@@ -57,15 +57,12 @@ function prune() {
     git remote prune origin
 }
 function update-from-master() {
-    git fetch
+    git fetch --all
     git merge origin/master
-    update
-
 }
 function update-from-develop() {
-    git fetch
+    git fetch --all
     git merge origin/develop
-    update
 }
 function gco($message) {
     git add . | Out-Host
