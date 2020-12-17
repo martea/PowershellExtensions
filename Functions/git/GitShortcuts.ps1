@@ -82,3 +82,33 @@ function gco($message) {
 function Edit-Git-Global-Config {
     editor $env:USERPROFILE\.gitconfig
 }
+
+Function Open-PullRequest-To([string]$targetRef = "master") {
+    if (-not (Get-Command git)) {
+        Write-Host 'Could not find git!' -ForegroundColor Red
+        return;
+    }
+
+    $branch = git rev-parse --abbrev-ref HEAD --
+    $remote = git remote get-url origin
+
+    # This repo uses SSH
+    if ($remote.startsWith('git@ssh.')) {
+        $remote = $remote.replace('git@ssh.dev.azure.com:v3/', '')
+        $remote = $remote.split('/')
+        $remote = "$($remote[0])/$($remote[1])/_git/$($remote[2])"
+        $url = "https://dev.azure.com/$remote/pullrequestcreate?sourceRef=$branch&targetRef=$targetRef"
+
+        # Open default browser
+        Start-Process $url
+    }
+    # This repo uses HTTPS
+    else {
+        $remote = $remote.split('@')
+        $remote = $remote[1]
+        $url = "https://$remote/pullrequestcreate?sourceRef=$branch&targetRef=$targetRef"
+
+        # Open default browser
+        Start-Process $url
+    }
+}
