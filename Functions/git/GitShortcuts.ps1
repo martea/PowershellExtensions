@@ -89,7 +89,7 @@ Function Open-PullRequest-To([string]$targetRef = "master") {
         return;
     }
 
-    $branch = git rev-parse --abbrev-ref HEAD --
+    $branch = git rev-parse --abbrev-ref HEAD
     $remote = git remote get-url origin
 
     # This repo uses SSH
