@@ -1,59 +1,83 @@
-// A minimal pixel shader that shows some raster bars
-
-// The terminal graphics as a texture
+// The original retro pixel shader
 Texture2D shaderTexture;
 SamplerState samplerState;
 
-// Terminal settings such as the resolution of the texture
 cbuffer PixelShaderSettings {
-  // The number of seconds since the pixel shader was enabled
   float  Time;
-  // UI Scale
   float  Scale;
-  // Resolution of the shaderTexture
   float2 Resolution;
-  // Background color as rgba
   float4 Background;
 };
 
-// A pixel shader is a program that given a texture coordinate (tex) produces a color.
-// tex is an x,y tuple that ranges from 0,0 (top left) to 1,1 (bottom right).
-// Just ignore the pos parameter.
+#define SCANLINE_FACTOR 0.5
+#define SCALED_SCANLINE_PERIOD Scale
+#define SCALED_GAUSSIAN_SIGMA (2.0*Scale)
+
+static const float M_PI = 3.14159265f;
+
+float Gaussian2D(float x, float y, float sigma)
+{
+    return 1/(sigma*sqrt(2*M_PI)) * exp(-0.5*(x*x + y*y)/sigma/sigma);
+}
+
+float4 Blur(Texture2D input, float2 tex_coord, float sigma)
+{
+    uint width, height;
+    shaderTexture.GetDimensions(width, height);
+
+    float texelWidth = 1.0f/width;
+    float texelHeight = 1.0f/height;
+
+    float4 color = { 0, 0, 0, 0 };
+
+    int sampleCount = 13;
+
+    for (int x = 0; x < sampleCount; x++)
+    {
+        float2 samplePos = { 0, 0 };
+
+        samplePos.x = tex_coord.x + (x - sampleCount/2) * texelWidth;
+        for (int y = 0; y < sampleCount; y++)
+        {
+            samplePos.y = tex_coord.y + (y - sampleCount/2) * texelHeight;
+            if (samplePos.x <= 0 || samplePos.y <= 0 || samplePos.x >= width || samplePos.y >= height) continue;
+
+            color += input.Sample(samplerState, samplePos) * Gaussian2D((x - sampleCount/2), (y - sampleCount/2), sigma);
+        }
+    }
+
+    return color;
+}
+
+float SquareWave(float y)
+{
+    return 1 - (floor(y / SCALED_SCANLINE_PERIOD) % 2) * SCANLINE_FACTOR;
+}
+
+float4 Scanline(float4 color, float4 pos)
+{
+    float wave = SquareWave(pos.y);
+
+    // TODO:GH#3929 make this configurable.
+    // Remove the && false to draw scanlines everywhere.
+    if (length(color.rgb) < 0.2 && false)
+    {
+        return color + wave*0.1;
+    }
+    else
+    {
+        return color * wave;
+    }
+}
+
 float4 main(float4 pos : SV_POSITION, float2 tex : TEXCOORD) : SV_TARGET
 {
-    // Read the color value at the current texture coordinate (tex)
-    //  float4 is tuple of 4 floats, rgba
-    float4 color = shaderTexture.Sample(samplerState, tex);
+    Texture2D input = shaderTexture;
 
-    // Read the color value at some offset, will be used as shadow
-    float4 ocolor = shaderTexture.Sample(samplerState, tex+2.0*Scale*float2(-1.0, -1.0)/Resolution.y);
+    // TODO:GH#3930 Make these configurable in some way.
+    float4 color = input.Sample(samplerState, tex);
+    color += Blur(input, tex, SCALED_GAUSSIAN_SIGMA)*0.3;
+    color = Scanline(color, pos);
 
-    // Thickness of raster
-    const float thickness = 0.1;
-
-    float ny = floor(tex.y/thickness);
-    float my = tex.y%thickness;
-    const float pi = 3.141592654;
-
-
-    // ny is used to compute the rasterbar base color
-    float cola = ny*2.0*pi;
-    float3 col = 0.75+0.25*float3(sin(cola*0.111), sin(cola*0.222), sin(cola*0.333));
-
-    // my is used to compute the rasterbar brightness
-    //  smoothstep is a great little function: https://en.wikipedia.org/wiki/Smoothstep
-    float brightness = 1.0-smoothstep(0.0, thickness*0.5, abs(my - 0.5*thickness));
-
-    float3 rasterColor = col*brightness;
-
-    // lerp(x, y, a) is another very useful function: https://en.wikipedia.org/wiki/Linear_interpolation
-    float3 final = rasterColor;
-    // Create the drop shadow of the terminal graphics
-    //  .w is the alpha channel, 0 is fully transparent and 1 is fully opaque
-    final = lerp(final, float(0.0), ocolor.w);
-    // Draw the terminal graphics
-    final = lerp(final, color.xyz, color.w);
-
-    // Return the final color, set alpha to 1 (ie opaque)
-    return float4(final, 1.0);
+    return color;
 }

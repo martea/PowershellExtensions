@@ -46,6 +46,6 @@
       }
     ],
     "terminal.integrated.fontFamily": "'Cascadia Code PL'",
-    "terminal.integrated.fontWeightBold": null
+    "terminal.integrated.fontSize": 12,
   }
   
