@@ -44,6 +44,8 @@
         "backgroundColor": "yellow"
         //other styling properties goes here ...
       }
-    ]
+    ],
+    "terminal.integrated.fontFamily": "'Cascadia Code PL'",
+    "terminal.integrated.fontWeightBold": null
   }
   

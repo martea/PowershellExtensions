@@ -33,5 +33,12 @@ if (!(hasContent($installHeader))) {
     # Add-Content $PROFILE "Import-Module oh-my-posh"
     # Add-Content $PROFILE "Set-Theme Paradox"
     # Write-host "Dont forget to add font https://github.com/adam7/delugia-code/releases";
-    # explorer.exe .\fonts       k
+    # explorer.exe .\fonts      
 }
+'
+'
+'
+'
+'
+'
+'
