@@ -29,12 +29,22 @@ function new-hotfix($name) {
     git push -u origin "$($name)"
 }
 
-function glog {
+function git-log {
     Write-Host "Print git log and with oneline custom format"
     git log --pretty=format:'%h %ad %s | %an' --date=short
 }
 
 
+function git-log-refs($refPath) {
+    if ($refPath.Length -gt 3) {
+        $ref = $refPath;
+    }
+    else {
+        $ref = "refs/remotes/origin";
+    }
+    
+    git for-each-ref --sort=committerdate $ref --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' 
+}
 
 function gs {
     git status
@@ -56,42 +66,49 @@ function prune-check() {
 function prune() {
     git remote prune origin
 }
-
+function update-from-master() {
+    git fetch --all
+    git merge origin/master
+}
+function update-from-develop() {
+    git fetch --all
+    git merge origin/develop
+}
 function gco($message) {
     git add . | Out-Host
     git commit -am $message | Out-Host
 }
 
-function git-cherry($url) {
-
-    #TODO: Update with pullrequest commit, it has more segemnts, isolate the commit/<commitId> instead
-    #url ex 
-    #split
-    #0 https:
-    #1
-    #2 SRC
-    #3 ORG
-    #4 REPO
-    #5 commit
-    #6 <commitid>
-    $urlData = $url.Split("/")
-    $repo = "$($urlData[3])/$($urlData[4])"
-    $hash = $urlData[6]
-    git remote add $repo "git@github.com:$($repo).git"
-    git fetch $repo
-    git cherry-pick $hash -x
-    git status
-    # $KeyOption = 'Y','N'
-    # while ($KeyOption -notcontains $KeyPress.Character) {
-    #  $KeyPress = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    # }
-    # if($KeyPress -eq 'Y'){
-    #     git mergetool
-    # }
-    # git add --all
-    # git commit -m "CODESHARE: $($repo):$($hash)"
-}
-
 function Edit-Git-Global-Config {
     editor $env:USERPROFILE\.gitconfig
+}
+
+Function Open-PullRequest-To([string]$targetRef = "master") {
+    if (-not (Get-Command git)) {
+        Write-Host 'Could not find git!' -ForegroundColor Red
+        return;
+    }
+
+    $branch = git rev-parse --abbrev-ref HEAD
+    $remote = git remote get-url origin
+
+    # This repo uses SSH
+    if ($remote.startsWith('git@ssh.')) {
+        $remote = $remote.replace('git@ssh.dev.azure.com:v3/', '')
+        $remote = $remote.split('/')
+        $remote = "$($remote[0])/$($remote[1])/_git/$($remote[2])"
+        $url = "https://dev.azure.com/$remote/pullrequestcreate?sourceRef=$branch&targetRef=$targetRef"
+
+        # Open default browser
+        Start-Process $url
+    }
+    # This repo uses HTTPS
+    else {
+        $remote = $remote.split('@')
+        $remote = $remote[1]
+        $url = "https://$remote/pullrequestcreate?sourceRef=$branch&targetRef=$targetRef"
+
+        # Open default browser
+        Start-Process $url
+    }
 }
