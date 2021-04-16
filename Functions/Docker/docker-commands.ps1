@@ -2,12 +2,26 @@
 function docker-build {
   Param(
     [Parameter(Mandatory = $true)]
-    [string]$tag,
+    [string]$tag ,
     [Parameter(Mandatory = $true)]
-    [string]$accessToken,
-    [string]$version = "1.0"
+    [string]$accessToken ,
+    [string]$version = "latest"
   )
+  
+
   docker build --tag "$($tag):$($version)" --build-arg PAT=$accessToken .
+}
+function docker-build-lazy {
+  Param(
+    [Parameter(Mandatory = $true)]
+    [string]$accessToken 
+  )
+  $tag = (Get-Item .).name,
+  $version = "latest"
+    
+  docker-build($tag, $accessToken, $version)
+  
+
 }
 
 
