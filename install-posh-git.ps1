@@ -30,9 +30,10 @@ if (!(hasContent($installHeader))) {
     Add-Content $PROFILE "Import-Module posh-git"
     Add-Content $PROFILE "ssh-agent -s"
     
-    # Add-Content $PROFILE "Import-Module oh-my-posh"
-    # Add-Content $PROFILE "Set-Theme Paradox"
-    # Write-host "Dont forget to add font https://github.com/adam7/delugia-code/releases";
+    Add-Content $PROFILE "Import-Module oh-my-posh"
+    Add-Content $PROFILE "Set-Theme Paradox"
+    Write-host "Dont forget to add font https://github.com/microsoft/cascadia-code/releases";
+    
     # explorer.exe .\fonts      
 }
 '
