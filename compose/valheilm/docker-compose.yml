@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  valheim-server:
+    image: lloesche/valheim-server
+    ports:
+      - "2456-2457:2456-2457/udp"
+    environment:
+      - SERVER_NAME=<replaceme_servername>
+      - WORLD_NAME=VALHEIM
+      - SERVER_PASS=<replaceme_pwd>
+      - ADDITIONAL_ARGS=""
+    volumes: 
+      - $HOME/valheim-server/config:/config
+      - $HOME/valheim-server/data:/opt/valheim
