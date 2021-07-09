@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  csgo:
+    image: cm2network/csgo
+    network_mode: "host"
+    environment:
+      - SRCDS_TOKEN=<replaceme_token>
+      - SRCDS_RCONPW=<replaceme_remote_pwd>
+      - SRCDS_PW=<replaceme_pwd>
+      - SRCDS_PORT=27015
+      - SRCDS_TV_PORT=27020
+      - SRCDS_NET_PUBLIC_ADDRESS=0
+      - SRCDS_IP=0
+      - SRCDS_FPSMAX=300
+      - SRCDS_TICKRATE=128
+      - SRCDS_MAXPLAYERS=32
+      - SRCDS_STARTMAP="de_dust2"
+      - SRCDS_REGION=3
+      - SRCDS_MAPGROUP="mg_active"
+      - SRCDS_GAMETYPE=0
+      - SRCDS_GAMEMODE=1
+      - SRCDS_HOSTNAME=<replaceme_name>
+      - SRCDS_WORKSHOP_START_MAP=0
+      - SRCDS_HOST_WORKSHOP_COLLECTION=0
+      - SRCDS_WORKSHOP_AUTHKEY=""
+      - ADDITIONAL_ARGS=""
