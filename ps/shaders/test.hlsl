@@ -9,7 +9,7 @@ cbuffer PixelShaderSettings {
   float4 Background;
 };
 
-#define SCANLINE_FACTOR 0.5
+#define SCANLINE_FACTOR 0.2
 #define SCALED_SCANLINE_PERIOD Scale
 #define SCALED_GAUSSIAN_SIGMA (2.0*Scale)
 
