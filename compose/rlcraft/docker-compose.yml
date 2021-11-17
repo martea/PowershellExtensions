@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  mc-rlcraft:
+    image: itzg/minecraft-server:java8-multiarch #fix for some java startup issue.
+    restart: on-failure
+    container_name: mc-rlcraft
+    hostname: mc-rlcraft
+    ports:
+      - "25565:25565"
+    volumes:
+      - "./data:/data"
+    environment:
+      OVERRIDE_SERVER_PROPERTIES: "true"
+      SERVER_NAME: "MY RLCRAFT SERVER"
+      MOTD: "MOTD OF THE DAY"
+      EULA: "TRUE"
+      VERSION: "1.12.2"
+      TYPE: "FORGE"
+      FORGEVERSION: "14.23.5.2838"
+      GENERIC_PACK: "https://media.forgecdn.net/files/2935/323/RLCraft+Server+Pack+1.12.2+-+Beta+v2.8.2.zip"
+      ENABLE_QUERY: "true"
+      SNOOPER_ENABLED: "true"
+      MEMORY: 10G
+      DIFFICULTY: "hard"
+      MAX_PLAYERS: 16
+      MAX_WORLD_SIZE: 100000
+      MAX_TICK_TIME: -1
+      VIEW_DISTANCE: 8
+      LEVEL_TYPE: default
+      ALLOW_FLIGHT: "true"
+      PVP: "false"
+      ONLINE_MODE: "true"
+      OPS: "OP1,OP2"
+      SPAWN_PROTECTION: 32
+
