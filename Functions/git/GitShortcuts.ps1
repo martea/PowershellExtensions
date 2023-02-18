@@ -79,6 +79,9 @@ function gco($message) {
     git commit -am $message | Out-Host
 }
 
+function cherry($sha) {
+    git cherry-pick -x $sha
+}
 function Edit-Git-Global-Config {
     editor $env:USERPROFILE\.gitconfig
 }

@@ -1,0 +1,17 @@
+version: '2'
+services:
+  factorio:
+    image: factoriotools/factorio:stable
+    ports:
+     - "34197:34197/udp"
+     - "27015:27015/tcp"
+
+    volumes:
+     - ./data/:/factorio
+     - ./server-settings-json:/server-settings.json
+    environment:
+     - GENERATE_NEW_SAVE=true
+     - SAVE_NAME=<SAVE_NAME>
+     - UPDATE_MODS_ON_START=true
+     - TOKEN=<server_token_from_factorio_com>
+     - USERNAME=<userid>
