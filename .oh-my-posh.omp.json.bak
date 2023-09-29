@@ -1,0 +1,108 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "#0973C0",
+          "properties": {
+            "folder_icon": "",
+            "folder_separator_icon": "  ",
+            "style": "full"
+          },
+          "style": "plain",
+          "type": "path"
+        }
+        
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "#0973C0",
+          "properties": {
+            "status_colors_enabled":true,
+            "color_background" : false,
+            "working_color" : "#b6b64b",
+            "staging_color" : "#7ec94d",
+            "local_changes_color": "#0973C0",
+            "prefix": " [",
+            "postfix": "] ",
+            "powerline_symbol": "\uE0B0",
+            "display_status": true,
+            "display_stash_count": true,
+            "display_upstream_icon": true,
+            "commit_icon": "C",
+            "tag_icon": "#",
+            "git_icon": "",
+            "local_staged_icon": "S",
+            "no_commits_icon": "NC",
+            "azure_devops_icon": "",
+            "worktree_count_icon": "TREE:",
+            "merge_icon": "MERGE:",
+            "branch_icon": " ",
+            "github_icon": "",
+            "gitlab_icon": "",
+            "rebase_icon": "REBASE:",
+            "branch_ahead_icon": ">",
+            "branch_behind_icon": "<",
+            "local_working_icon": "?"
+          },
+          "style": "plain",
+          "type": "git"
+        },
+        {
+          "foreground": "#0377C8",
+          "properties": {
+            "postfix": "",
+            "prefix": ""
+          },
+          "style": "plain",
+          "type": "time"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "#CECE04",
+          "properties": {
+            "prefix": ""
+          },
+          "style": "plain",
+          "type": "root"
+        },
+        {
+          "foreground": "#100e23",
+          "properties": {
+            "prefix": "  "
+          },
+          "style": "plain",
+          "type": "python"
+        },
+        {
+          "foreground": "#CB4B16",
+          "style": "plain",
+          "type": "exit"
+        },
+        {
+          "foreground": "#ffffff",
+          "properties": {
+            "prefix": "",
+            "text": ">"
+          },
+          "style": "plain",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "final_space": true
+}
