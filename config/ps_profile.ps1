@@ -10,4 +10,4 @@ Push-Location $MY_PSE_DIR
 Pop-Location
 
 #configuration
-oh-my-posh init pwsh --config "D:\dev\PowershellExtensions\.oh-my-posh.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "$($MY_PSE_DIR).oh-my-posh.omp.json" | Invoke-Expression
