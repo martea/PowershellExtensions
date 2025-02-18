@@ -6,14 +6,15 @@
     tool = vscode
 [mergetool "vscode"]
     cmd = code --wait $MERGED
-
 [diff]
     tool = vscode
 [difftool "vscode"]
     cmd = code --wait --diff $LOCAL $REMOTE
-
 [core]
 	editor = code --wait
 	longpaths = true
 [fetch]
 	prune = true
+[user]
+	email = maarten.andersson@gmail.com
+	name = Mårten Andersson
